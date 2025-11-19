@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquiry - Sweet Tooth Bakery</title>
+
+    <meta name="description" content="Got a question or feedback for Sweet Tooth Bakery? Let us know your thoughts and we'll get back to you soon!">
+    <meta name="keywords" content="bakery, enquiry, feedback, sweet tooth, desserts, treats, cakes">
+    <meta name="author" content="Sweet Tooth Bakery">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* HEADER STYLES */
+        header {
+            background-color: #FF69B4;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: box-shadow 0.3s ease;
+        }
+
+        header h1 {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header h2 {
+            margin: 0;
+            font-weight: normal;
+        }
+
+        /* NAVIGATION STYLES */
+        nav {
+            background-color: #FF69B4;
+            text-align: left; /* Align nav to the left */
+            padding: 15px 20px;
+            margin-top: 80px; /* Add space below the header */
+        }
+
+        nav a {
+            margin-right: 15px;
+            color: #FFFFFF;
+            font-weight: bold;
+            text-decoration: none;
+            padding-bottom: 5px;
+            border-bottom: 3px solid transparent; /* Add bottom border */
+            transition: border-color 0.3s ease;
+        }
+
+        /* ACTIVE LINK STYLE */
+        nav a.active {
+            color: black; /* Make text color black when active */
+            border-color: #000; /* Make underline color black when active */
+        }
+
+        /* ENQUIRY FORM CONTAINER */
+        .container {
+            max-width: 500px;
+            margin: 120px auto 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .container h1 {
+            color: #FF69B4;
+            font-size: 2rem;
+        }
+
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #FF69B4;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+            outline: none;
+            border-color: #e055a3;
+            background-color: #ffe6f0;
+        }
+
+        button {
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e055a3;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #d14f8d;
+            transform: scale(1);
+        }
+
+        /* FOOTER STYLES */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #FF69B4;
+            color: white;
+            text-align: center;
+            padding: 2px 0; /* Make footer slim */
+            font-size: 13px;
+            transition: opacity 0.4s ease;
+        }
+
+        /* RESPONSIVENESS */
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header id="siteHeader">
+    <img src="images/logos.jfif" style="height: 50px;" alt="Sweet Tooth Bakery Logo">
+    <div>
+        <h1 style="margin: 0;">SWEET TOOTH</h1>
+    </div>
+</header>
+
+<div style="padding-top: 120px;"> 
+
+<!-- NAVIGATION -->
+<nav>
+    <a href="Home.html" class="nav-link">Home</a>
+    <a href="Menu.html" class="nav-link">Menu</a>
+    <a href="Enquiry.html" class="nav-link active">Enquiries</a> <!-- 'Enquiries' link set to active -->
+    <a href="Contact.html" class="nav-link">Contact</a>
+</nav>
+
+<!-- ENQUIRY FORM -->
+<div class="container">
+    <h1>Enquiry</h1>
+    <p>We hope you enjoyed your meal! If you have any questions or feedback, please let us know.</p>
+
+    <form id="enquiryForm">
+        <input type="text" id="fullName" placeholder="Full Name" required><br>
+        <input type="email" id="email" placeholder="Email Address" required><br>
+        <textarea id="message" placeholder="Your Enquiry/Feedback" rows="5" required></textarea><br>
+        <button type="submit">Submit Enquiry</button>
+    </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>&copy; ST10484492. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Navigation link highlight functionality
+document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", function() {
+        document.querySelectorAll(".nav-link").forEach(a => a.classList.remove("active"));
+        this.classList.add("active");
+    });
+});
+
+// Handle form submission
+document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Collect form data
+    const fullName = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    // Simple validation (could be extended)
+    if (!fullName || !email || !message) {
+        alert('Please complete all fields.');
+        return;
+    }
+
+    // Simulate form submission
+    alert(`Thank you, ${fullName}! Your enquiry has been submitted. We will get back to you shortly.`);
+
+    // Reset the form after submission
+    document.getElementById('enquiryForm').reset();
+
+    // Optionally, redirect the user to a confirmation page
+    window.location.href = 'ThankYou.html'; // Replace with your own URL if needed
+});
+
+// Hide footer when the user scrolls to the bottom
+window.addEventListener("scroll", () => {
+    const footer = document.querySelector("footer");
+
+    const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
+
+    footer.style.opacity = scrolledToBottom ? "0" : "1";
+});
+</script>
+
+</body>
+</html>

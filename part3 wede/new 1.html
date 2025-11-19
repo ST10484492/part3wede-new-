@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Selected Items</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff0f6;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #FF69B4;
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1000;
+}
+header h1 {
+    margin: 0;
+}
+header h2 {
+    margin: 0;
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.container {
+    max-width: 960px;
+    margin: 120px auto 40px;
+    padding: 0 15px;
+}
+
+#backBtn {
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #FF69B4;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+#backBtn:hover {
+    background-color: #e055a3;
+}
+
+#pageTitle {
+    text-align: center;
+    color: #FF69B4;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+th {
+    background-color: #FF69B4;
+    color: #fff;
+}
+tr:nth-child(even) {
+    background-color: #ffe6f0;
+}
+
+#total {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #000000;
+}
+
+#confirmBtn {
+    display: block;
+    margin: 20px auto 0;
+    background-color: #FF69B4;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+#confirmBtn:hover {
+    background-color: #e055a3;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #FF69B4;
+    color: white;
+    text-align: center;
+    padding: 6px 10px;
+    transition: opacity 0.4s ease;
+}
+
+/* Style the quantity input */
+.itemQty {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    font-size: 1rem;
+    border: 2px solid #FF69B4;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000000;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.itemQty:focus {
+    outline: none;
+    border-color: #e055a3;
+    background-color: #ffe6f0;
+}
+
+.itemQty:hover {
+    background-color: #ffe6f0;
+}
+
+/* Style the remove button */
+.removeBtn {
+    padding: 8px 15px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.removeBtn:hover {
+    background-color: #e055a3;
+    transform: scale(1.05);
+}
+
+.removeBtn:active {
+    background-color: #d14f8d;
+    transform: scale(1);
+}
+</style>
+
+</head>
+<body>
+
+<header>
+    <img src="images/logos.jfif" alt="Sweet Tooth Logo" style="height: 50px; width: auto;">
+    <div>
+        <h1 style="margin:0;">SWEET TOOTH</h1>
+    </div>
+</header>
+
+<div class="container">
+    <a href="Menu.html" id="backBtn">← Back to Menu</a>
+
+    <h1 id="pageTitle">Your Selected Items</h1>
+
+    <table id="selectedItemsTable">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price (R)</th>
+                <th>Subtotal (R)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Items will populate here via JS -->
+        </tbody>
+    </table>
+    
+    <p id="total">Total: R0.00</p>
+    
+    <a href="new 3.html" id="confirmBtn">Confirm & Pay</a>
+</div>
+
+<footer>
+<p style="margin: 5px 0;">&copy; 2025 ST10484492. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Fetch cart from localStorage
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let tbody = document.querySelector('#selectedItemsTable tbody');
+let totalEl = document.getElementById('total');
+
+// Display the cart contents dynamically
+function displayCart() {
+    let total = 0;
+    tbody.innerHTML = '';
+
+    if(cart.length === 0){
+        tbody.innerHTML = '<tr><td colspan="5">No items selected yet!</td></tr>';
+        totalEl.textContent = 'Total: R0.00';
+        return;
+    }
+
+    cart.forEach(item => {
+        let subtotal = item.price * item.qty;
+        total += subtotal;
+
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.name}</td>
+            <td><input type="number" value="${item.qty}" min="1" class="itemQty" data-name="${item.name}" /></td>
+            <td>${item.price.toFixed(2)}</td>
+            <td>${subtotal.toFixed(2)}</td>
+            <td><button class="removeBtn" data-name="${item.name}">Remove</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    totalEl.textContent = `Total: R${total.toFixed(2)}`;
+}
+
+function updateItemQty(name, newQty) {
+    const item = cart.find(i => i.name === name);
+    if (item) {
+        item.qty = newQty;
+    }
+    saveCart();
+    displayCart();
+}
+
+function removeItemFromCart(name) {
+    cart = cart.filter(item => item.name !== name);
+    saveCart();
+    displayCart();
+}
+
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+document.querySelector('#selectedItemsTable').addEventListener('input', function(event) {
+    if (event.target.classList.contains('itemQty')) {
+        const name = event.target.dataset.name;
+        const newQty = parseInt(event.target.value);
+        if (newQty > 0) {
+            updateItemQty(name, newQty);
+        } else {
+            alert("Quantity must be greater than 0");
+        }
+    }
+});
+
+document.querySelector('#selectedItemsTable').addEventListener('click', function(event) {
+    if (event.target.classList.contains('removeBtn')) {
+        const name = event.target.dataset.name;
+        removeItemFromCart(name);
+    }
+});
+
+displayCart();
+
+window.addEventListener("scroll", () => {
+    const footer = document.querySelector("footer");
+
+    const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
+
+    footer.style.opacity = scrolledToBottom ? "0" : "1";
+});
+
+</script>
+
+</body>
+</html>
